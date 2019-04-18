@@ -6,7 +6,7 @@
 >
 >Avies simply outputs the players information and their avatar's information.
 >
->Golden rturns all the quests that were completed that gave out treasure that had the word 'gold' in it, alongside the realm it was in.
+>Golden returns all the quests that were completed that gave out treasure that had the word 'gold' in it, alongside the realm it was in.
 >
 >Evening returns all the quests that were not completed before evening on the same day it was on.
 >
