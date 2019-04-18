@@ -1,0 +1,2 @@
+All the files I submitted were originally made and tested as sql files, but were changed to txt files right before they needed to be submitted. 
+Needless to say switching the files back woulf let them run seemless on the DB2 servers.

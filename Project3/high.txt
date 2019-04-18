@@ -1,0 +1,38 @@
+with
+	Base (theme, race, total) as (	
+		select Q.theme, Av.race, sum(T.sql)
+		from Avatar Av, Visit V, Quest Q, Actor Ac, Treasure T, Loot L
+		where
+			Ac.login = L.login
+			and Ac.realm = L.realm
+			and Ac.day = L.day
+			and Ac.theme = L.theme
+			and Q.theme = L.theme
+			and Q.realm = L.realm
+			and Q.day = L.day
+			and T.treasure = L.treasure
+			and Q.theme = Ac.theme
+			and Q.realm = Ac.realm
+			and Q.day = Ac.day
+			and V.login = Ac.login
+			and V.realm = Ac.realm
+			and V.day = Ac.day
+			and Av.login = V.login
+			and Av.name = V.name
+			and Ac.login = Av.login
+		group by Q.theme, Av.race
+	),
+	
+	Rich (theme, total) as (
+		select theme, max(total)
+		from Base
+		group by theme
+	)
+	
+select R.theme, B.race, R.total
+from Base B, Rich R
+where
+	R.total = B.total
+group by R.theme, B.race, R.total
+order by R.theme, B.race;
+

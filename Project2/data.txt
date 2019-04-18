@@ -1,0 +1,88 @@
+-- =====================================================
+-- Tap Tap DB
+
+-- Schema Drop script
+-- Vladimir Stefanovich, March 2018
+-- -----------------------------------------------------
+insert into Customer (fuid,name,birthdate,hukou,address) values
+  ('c69e918d', 'Margaret Atwood',  '11/18/1939',   'M5R2L7',   '105 Admiral Road'),
+  ('461a04a3', 'Allison Ayers',    '02/21/1998',   'M6P1P7',   '181 Annette Street'),
+  ('eb4bb90f', 'William Ayers',    '11/14/1997',   'M6P1P7',   '181 Annette Street'),
+  ('645e3ed4', 'Michael Cera',     '07/07/1988',   'M5R1Y9',   '38 Castle View Avenue'),
+  ('c62e1271', 'Mark Dogfury',     '12/29/1979',   'M6H2P4',   '269 Concord Avenue'),
+  ('cd712a8a', 'Ellen Page',       '02/21/1987',   'M6J3C4',   '156 Dovercourt Road'),
+  ('8b073535', 'Ellen Page',       '05/29/2002',   'M5R1L5',   '25 Kendal Avenue #3');
+  
+insert into Account (nickname,owner,cc#,type) values
+  ('Phaethon',          'c69e918d',   '5508447201716395',   'Mastercard'),
+  ('My f''ing TapTap',  '461a04a3',   '4916380114543185',   'Visa'),
+  ('knives',            '645e3ed4',   '4929346127032743',   'Visa'),
+  ('my TT',             'cd712a8a',   '5228165338423763',   'MasterCard'),
+  ('secret TT',         'cd712a8a',   '3529178324492354',   'JCB'),
+  ('Ellen Page',        '8b073535',   '5354248137541609',   'MasterCard');
+  
+insert into Card (card#,holder,owner,nickname,tier) values
+  ('8d111f3a',   'c69e918d',   'c69e918d',  'Phaethon',          'adult'),
+  ('67f8e6ab',   '461a04a3',   '461a04a3',  'My f''ing TapTap',  'adult'),
+  ('47f7c482',   'eb4bb90f',   '461a04a3',  'My f''ing TapTap',  'senior'),
+  ('39a951d0',   '645e3ed4',   '645e3ed4',  'knives',            'student'),
+  ('02b7cd93',   'c62e1271',   '645e3ed4',  'knives',            'adult'),
+  ('401aa88d',   'cd712a8a',   'cd712a8a',  'my TT',             'adult'),
+  ('ff53af77',   'cd712a8a',   'cd712a8a',  'secret TT',         'adult'),
+  ('9e3377d1',   '8b073535',   '8b073535',  'Ellen Page',        'senior');
+  
+insert into Kiosk (kiosk#,provider,place) values
+  ('7df82ea7',   'TTC Subway',       'St Clair West'),
+  ('e894721e',   'TTC Subway',       'Spadina'),
+  ('a9d49c05',   'TTC Subway',       'St George'),
+  ('ae3ce29e',   'TTC Subway',       'St George'),
+  ('47c880e6',   'TTC Subway',       'Queen''s Park'),
+  ('c41a117f',   'TTC Subway',       'St Patrick'),
+  ('a9d49c05',   'TTC Streetcar',    'St Patrick'),
+  ('b8821d1b',   'TTC Streetcar',    'Ossington Ave'),
+  ('59ae0bd4',   'TTC Subway',       'Osgood'),
+  ('3caf15bb',   'TTC Subway',       'Union');
+  
+insert into Service (service) values
+  ('TapOn'),
+  ('TapOff'),
+  ('Balance');
+  
+-- ---------------------------------------------------------------------------
+-- Action
+
+ECHO 'populating Action';
+
+insert into Action (kiosk#, provider, service)
+    select kiosk#, provider, service
+    from Kiosk,
+         (values ('TapOn'), ('TapOff'))
+            as A (service);
+
+insert into Action (kiosk#, provider, service)
+    select kiosk#, provider, 'Balance'
+    from (values ('St George'), ('St Patrick'), ('Union')) 
+            as P (stop),
+         Kiosk
+    where place = stop;
+    
+------------------------------------------------------------------------------
+
+insert into Tap(when, card#, service, kiosk#, provider) values
+ ('2019-01-23-09.32.07',   '8d111f3a',   'TapOn',    'ae3ce29e', 'TTC Subway'),
+ ('2019-01-23-10.01.41',   '8d111f3a',   'TapOff',   '3caf15bb', 'TTC Subway'),
+ ('2019-01-23-08.15.37',   '47f7c482',   'TapOn',    '7df82ea7', 'TTC Subway'),
+ ('2019-01-23-11.23.50',   '39a951d0',   'TapOn',    'e894721e', 'TTC Subway'),
+ ('2019-01-23-11.48.18',   '39a951d0',   'TapOff',   '59ae0bd4', 'TTC Subway'),
+ ('2019-01-23-13.06.23',   '02b7cd93',   'TapOn',    '3caf15bb', 'TTC Subway'),
+ ('2019-01-23-13.51.13',   '02b7cd93',   'TapOff',   '7df82ea7', 'TTC Subway'),
+ ('2019-01-23-08.53.47',   '401aa88d',   'Balance',  'a9d49c05', 'TTC Subway'),
+ ('2019-01-23-08.54.39',   '401aa88d',   'TapOn',    'a9d49c05', 'TTC Subway'),
+ ('2019-01-23-09.09.39',   '401aa88d',   'TapOff',   'c41a117f', 'TTC Subway'),
+ ('2019-01-23-14.11.29',   'ff53af77',   'TapOn',    'a9d49c05', 'TTC Streetcar'),
+ ('2019-01-23-14.29.01',   'ff53af77',   'TapOff',   'b8821d1b', 'TTC Streetcar'),
+ ('2019-01-23-08.53.48',   '9e3377d1',   'TapOn',    'a9d49c05', 'TTC Subway'),
+ ('2019-01-23-09.09.02',   '9e3377d1',   'TapOff',   'c41a117f', 'TTC Subway');
+
+
+

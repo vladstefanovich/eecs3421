@@ -1,0 +1,13 @@
+-- =====================================================
+-- Tap Tap DB
+
+-- Schema Drop script
+-- Vladimir Stefanovich, March 2018
+-- -----------------------------------------------------
+drop table Tap;
+drop table Action;
+drop table Service;
+drop table Kiosk;
+drop table Card;
+drop table Account;
+drop table Customer;

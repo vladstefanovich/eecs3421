@@ -1,0 +1,22 @@
+with 
+    Done(theme, times) as (
+      select Q.theme, count(Q.theme)
+      from Quest Q
+      group by Q.theme
+    ),
+    
+    Successful(theme, times) as (
+      select Q.theme, count(Q.theme)
+      from Quest Q
+      where Q.succeeded IS NOT NULL
+      group by Q.theme
+    )
+
+select Q.theme
+from Quest Q, Done D, Successful S
+where
+    Q.theme = D.theme
+    and Q.theme = S.theme
+    and D.times = S.times
+group by Q.theme
+order by Q.theme;

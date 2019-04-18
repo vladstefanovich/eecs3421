@@ -1,0 +1,41 @@
+with 
+		Rich (realm, gender, race, worth) as (
+			select Ac.realm, Av.gender, Av.race, sum(T.sql)
+			from Avatar Av, Actor Ac, Quest Q, Visit V, Loot L, Treasure T
+			where
+				L.treasure = T.treasure
+				and L.theme = Q.theme
+				and L.realm = Q.realm
+				and L.day = Q.day
+				and L.login = Ac.login
+				and L.realm = Ac. realm
+				and L.day = Ac.day
+				and L.theme = Ac.theme
+				and Ac.theme = Q.theme
+				and Ac.realm = Q.realm
+				and Ac.day = Q.day
+				and Ac.login = V.login
+				and Ac.realm = V.realm
+				and Ac.day = V.day
+				and Q.succeeded IS NOT NULL
+				and V.login = Av.login
+				and V.name = Av.name
+				and Ac.login = Av.login
+			group by Ac.realm, Av.gender, Av.race
+		),
+		
+		Top (realm, gender, total) as (
+			select R.realm, R.gender, max(R.worth)
+			from Avatar Av, Rich R
+			where
+				Av.gender = R.gender
+			group by R.realm, R.gender
+		)
+		
+select T.realm, T.gender, R.race, T.total
+from Rich R, Top T
+where 
+	R.realm = T.realm
+	and R.gender = T.gender
+	and R.worth = T.total
+order by T.realm, T.gender;

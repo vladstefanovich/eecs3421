@@ -1,0 +1,5 @@
+
+select P.login, P.name, A.name as avatar, A.race
+from Player P, Avatar A
+where P.login = A.login
+order by login, name, avatar;

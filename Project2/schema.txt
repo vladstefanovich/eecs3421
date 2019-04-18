@@ -1,0 +1,87 @@
+-- =====================================================
+-- Tap Tap DB
+
+-- Schema Create script
+-- Vladimir Stefanovich, March 2018
+-- -----------------------------------------------------
+create table Customer (
+	fuid		  char(8)		  not null,
+	name		  varchar(20)	not null,
+	birthdate	date		    not null,
+	hukou		  char(6)		  not null,
+	address		varchar(25)	not null,
+	constraint Customer_PK
+		primary key (fuid)
+);
+
+-- -----------------------------------------------------
+create table Account (
+	nickname	varchar(15)	not null,
+	owner		char(8)		not null,
+	cc#			char(16)	not null,
+	type		varchar(12)	not null,
+	constraint Account_PK
+		primary key (nickname, owner),
+	constraint Account_Owner_FK
+		foreign key (owner) references Customer(fuid)
+);
+
+-- -----------------------------------------------------
+create table Card (
+	card# 		char(8)		not null,
+	holder		char(8)		not null,
+	owner		char(8)		not null,
+	nickname	varchar(15)	not null,
+	tier		varchar(10)	not null,
+	constraint Card_PK
+		primary key (card#),
+	constraint Card_Holder_FK
+		foreign key (holder) references Customer(fuid),
+	constraint Card_Account_FK
+		foreign key (owner, nickname) references Account(owner, nickname)
+);
+
+-- -----------------------------------------------------
+create table Kiosk (
+	kiosk#		char(8)		not null,
+	provider	varchar(15)	not null,
+	place 		varchar(15) not null,
+	constraint Kiosk_PK
+		primary key (kiosk#, provider)
+);
+
+-- -----------------------------------------------------
+create table Service (
+	service		varchar(10) not null,
+	constraint Service_PK
+		primary key (service)
+);
+
+-- -----------------------------------------------------
+create table Action (
+	service		varchar(10) not null,
+	kiosk#		char(8)		not null,
+	provider	varchar(15)	not null,
+	constraint Action_PK
+		primary key (service, kiosk#, provider),
+	constraint Action_Service_FK
+		foreign key (service) references Service,
+	constraint Action_Kiosk_FK
+		foreign key (kiosk#, provider) references Kiosk
+);
+
+-- -----------------------------------------------------
+create table Tap (
+	when	timestamp not null,
+	card# 		char(8)		not null,
+	service		varchar(10) not null,
+	kiosk#		char(8)		not null,
+	provider	varchar(15)	not null,
+  constraint Tap_PK
+      primary key (when, card#),
+  constraint Tap_Card_FK
+      foreign key (card#) references Card,
+  constraint Tap_Action_FK
+      foreign key (service, kiosk#, provider) references Action
+);
+

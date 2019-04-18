@@ -1,0 +1,17 @@
+with
+  Avies (login, total) as (
+    select P.login, count(A.name)
+    from Player P, Avatar A
+    where 
+      P.login = A.login 
+    group by P.login
+  )
+
+select P.login, P.name, P.gender, T.total as #avatar
+from Player P, Avatar A, Avies T
+where 
+	P.login = A.login
+  and P.login = T.login
+	and P.gender <> A.gender
+group by P.login, P.gender, P.name, T.total
+order by P.login;

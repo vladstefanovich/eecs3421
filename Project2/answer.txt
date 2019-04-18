@@ -1,0 +1,25 @@
+ 
+ 
+
+PASSENGER            FUID     PLACE           PROVIDER        ACCT_NNAME      SERVICE    DATE                       TIME                      
+-------------------- -------- --------------- --------------- --------------- ---------- -------------------------- --------------------------
+Ellen Page           8b073535 St George       TTC Subway      Ellen Page      TapOn      2019-01-23                 08.53.48.000000           
+Ellen Page           8b073535 St Patrick      TTC Subway      Ellen Page      TapOn      2019-01-23                 08.53.48.000000           
+Ellen Page           8b073535 St Patrick      TTC Subway      Ellen Page      TapOff     2019-01-23                 09.09.02.000000           
+Ellen Page           cd712a8a St George       TTC Subway      my TT           TapOn      2019-01-23                 08.54.39.000000           
+Ellen Page           cd712a8a St Patrick      TTC Subway      my TT           TapOn      2019-01-23                 08.54.39.000000           
+Ellen Page           cd712a8a St Patrick      TTC Subway      my TT           TapOff     2019-01-23                 09.09.39.000000           
+Ellen Page           cd712a8a St George       TTC Streetcar   secret TT       TapOn      2019-01-23                 14.11.29.000000           
+Ellen Page           cd712a8a St Patrick      TTC Streetcar   secret TT       TapOn      2019-01-23                 14.11.29.000000           
+Ellen Page           cd712a8a Ossington Ave   TTC Streetcar   secret TT       TapOff     2019-01-23                 14.29.01.000000           
+Margaret Atwood      c69e918d St George       TTC Subway      Phaethon        TapOn      2019-01-23                 09.32.07.000000           
+Margaret Atwood      c69e918d Union           TTC Subway      Phaethon        TapOff     2019-01-23                 10.01.41.000000           
+Mark Dogfury         c62e1271 Union           TTC Subway      knives          TapOn      2019-01-23                 13.06.23.000000           
+Mark Dogfury         c62e1271 St Clair West   TTC Subway      knives          TapOff     2019-01-23                 13.51.13.000000           
+Michael Cera         645e3ed4 Spadina         TTC Subway      knives          TapOn      2019-01-23                 11.23.50.000000           
+Michael Cera         645e3ed4 Osgood          TTC Subway      knives          TapOff     2019-01-23                 11.48.18.000000           
+William Ayers        eb4bb90f St Clair West   TTC Subway      My f'ing TapTap TapOn      2019-01-23                 08.15.37.000000           
+
+  16 record(s) selected.
+
+

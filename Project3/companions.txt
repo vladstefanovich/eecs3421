@@ -1,0 +1,94 @@
+with
+    Matched as (
+        select distinct AF.login, AvF.name, Q.realm, AL.login as llogin, AvL.name as fname
+        from Actor AF, Avatar AvF, Actor AL, Avatar Avl, Quest Q, Visit VF, Visit VL
+        where
+            AF.theme = AL.theme
+            and AF.day = AL.day
+            and AF.realm = AL.realm
+            and AF.login = AvF.login
+            and AL.login = AvL.login
+            and AF.theme = Q.theme
+            and AF.day = Q.day
+            and AF.realm = Q.realm
+            and AL.theme = Q.theme
+            and AL.day = Q.day
+            and AL.realm = Q.realm
+            and AL.login > AF.login
+            and AF.login = VF.login
+            and AF.realm = VF.realm
+            and AF.day = VF.day
+            and AL.login = VL.login
+            and AL.realm = VL.realm
+            and AL.day = VL.day 
+            and VF.login = AvF.login
+            and VF.name = AvF.name
+            and VL.login = AvL.login
+            and VL.name = AvL.name
+    ),
+		
+    Sub as (
+            select distinct M1.login as companion1, M1.name as fname, M1.realm,  M1.llogin as companion2, M1.fname as lname
+            from Matched M1
+            where
+                not exists (
+                    select Ac.realm, Ac.day, Ac.theme
+                    from Avatar Av, Actor Ac, Visit V
+                    where   
+                            Av.login = Ac.login
+                            and V.name = Av.name
+                            and V.login = Av.login
+                            and V.day = Ac.day
+                            and V.login = Ac.login
+                            and V.realm = Ac.realm
+                            and M1.login = Av.login 
+                            and M1.name = Av.name 
+                            and M1.realm = Ac.realm  
+                    except
+                    select Ac2.realm, Ac2.day, Ac2.theme
+                    from Avatar Av2, Actor Ac2, Visit V2
+                    where   
+                            Av2.login = Ac2.login
+                            and V2.name = Av2.name
+                            and V2.login = Av2.login
+                            and V2.day = Ac2.day
+                            and V2.login = Ac2.login
+                            and V2.realm = Ac2.realm
+                            and M1.llogin = Av2.login 
+                            and M1.fname = Av2.name 
+                            and M1.realm = Ac2.realm
+                )
+                and 
+                not exists (
+                    select Ac2.realm, Ac2.day, Ac2.theme
+                    from Avatar Av2, Actor Ac2, Visit V2
+                    where   
+                            Av2.login = Ac2.login
+                            and V2.name = Av2.name
+                            and V2.login = Av2.login
+                            and V2.day = Ac2.day
+                            and V2.login = Ac2.login
+                            and V2.realm = Ac2.realm
+                            and M1.llogin = Av2.login 
+                            and M1.fname = Av2.name
+                            and M1.realm = Ac2.realm  
+                    except   
+                    select Ac.realm, Ac.day, Ac.theme
+                    from Avatar Av, Actor Ac, Visit V
+                    where   
+                            Av.login = Ac.login
+                            and V.name = Av.name
+                            and V.login = Av.login
+                            and V.day = Ac.day
+                            and V.login = Ac.login
+                            and V.realm = Ac.realm
+                            and M1.login = Av.login 
+                            and M1.name = Av.name 
+                            and M1.realm = Ac.realm
+                )
+            order by realm, companion1, fname, companion2, lname
+        )
+
+select *
+from Sub
+order by realm, companion1, fname, companion2, lname;

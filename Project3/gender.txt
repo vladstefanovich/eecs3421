@@ -1,0 +1,4 @@
+select distinct	
+	(select count(*) from Player P where P.gender = 'M') as #male, 
+	(select count(*) from Player P where P.gender = 'F') as #female
+from Player;

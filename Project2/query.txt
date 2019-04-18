@@ -1,0 +1,14 @@
+--
+--
+--
+--
+--
+
+SELECT Cu.name as passenger, Ca.holder as fuid, K.place, T.provider, Ca.nickname as acct_nname, T.service, SUBSTRING(T.when, 1, 10) as date, SUBSTRING(T.when, 12, 20) as time
+  FROM Customer Cu, Card Ca, Kiosk K, Tap T
+  WHERE
+      T.card# = Ca.card# 
+      and Ca.holder = Cu.fuid
+      and T.kiosk# = K.kiosk#
+      and T.service <> 'Balance'
+  ORDER BY Cu.name, Ca.holder;

@@ -1,0 +1,41 @@
+with 
+  Basic as (
+    select V.login, V.realm, count(*) as #visit
+    from Visit V
+    group by V.login, V.realm
+    order by V.login, V.realm
+    ),
+    
+  Clean as (
+      select B.login, B.realm, B.#visit
+      from Basic B
+      where
+        B.#visit <> 0
+        and B.#visit <> 1
+      group by B.login, B.realm, B.#visit
+    ),
+    
+    Freq as (
+		select V2.login, V2.realm, AVG(cast(DAYS_BETWEEN(V2.day, V1.day) as decimal(5,2))) as frequency
+        from Visit V1, Visit V2 
+        where
+			V1.login = V2.login
+			and V1.realm = V2.realm
+			and V1.day < V2.day
+			and V2.day in (
+							select min( V3.day)
+							from Visit V3
+							where
+								V2.login = V3.login
+								and V2.realm = V3.realm	
+								and V1.day < V3.day
+							)
+		group by V2.login, V2.realm
+    )
+    
+select F.login, F.realm, C.#visit, cast(ROUND(F.frequency,2) as decimal(5,2))
+from Freq F, Clean C
+where
+	F.login = C.login
+	and F.realm = C.realm
+order by F.login, F.realm;
